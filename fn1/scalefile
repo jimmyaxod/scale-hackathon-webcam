@@ -1,0 +1,14 @@
+version  = "v1alpha"
+name     = "webcam"
+tag      = "latest"
+language = "go"
+
+signature {
+  organization = "local"
+  name         = "webcam"
+  tag          = "v1"
+}
+
+function    = "Scale"
+initialize  = ""
+description = ""
