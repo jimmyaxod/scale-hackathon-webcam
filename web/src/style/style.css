@@ -1,162 +1,18 @@
 html {
-	--mdc-theme-primary: #164194 !important;
-	--mdc-theme-secondary: #0BBBEF !important;
-	--primary-grey: #ccc;
 	margin: 0;
 	padding: 0;
 }
 
-body {
-	display: flex;
-	height: 100vh;
-
-  margin: 0;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  text-align: left;
-  background-color: #fff;
+#video {
+  border: 3px solid #a00;
+  border-radius: 5px;
+  width: 480px;
+  height: 360px;
 }
 
-hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border: 0;
-  border-top: 1px solid rgba(0,0,0,.1);
-  box-sizing: content-box;
-  height: 0;
-  overflow: visible;
-}
-
-/* Navigation */
-main .content {display:none; padding: 10px}
-main .content--active {display:block}
-
-/* Connection Status */
-.connection-status {display:none}
-body[data-connection="connecting"] .connecting {display:block}
-body[data-connection="connected"] .connected {display:block}
-body[data-connection="disconnected"] .disconnected {display:block}
-body[data-connection="disconnected"] #uiusers {display:none}
-
-@keyframes glowing {
-	0% {
-		background-color: #9205a8;
-		box-shadow: 0 0 3px #0805a8;
-	}
-	50% {
-		background-color: #5905a8;
-		box-shadow: 0 0 10px #3105a8;
-	}
-	100% {
-		background-color: #9205a8;
-		box-shadow: 0 0 3px #0805a8;
-	}
-  }
-.disconnected {animation: glowing 1300ms infinite;}
-
-.mdc-top-app-bar__title {text-transform: uppercase;}
-
-/* Content */
-.mdc-drawer-app-content {
-  flex: auto;
-  overflow: auto;
-  position: relative;
-}
-
-main {
-  width: 100%;
-}
-
-.scale-func {
-  background: #eee;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.scale-func-running {
-  background: #8e8;
-  border: 1px solid #282;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.hitme {
-  color: #000;
-}
-
-.hitme-running {
-  color: #282;
-  background: #8e8;
-}
-
-.a-delete {
-  color: #c00;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.content {
-  overflow: auto;
-  height: 100%;
-  width: 100%;
-}
-
-.app-bar {
-  position: absolute;
-}
-
-.mdc-top-app-bar {
-  z-index: 7;
-}
-
-.mdc-dialog .mdc-dialog__surface {
-  max-width: 1200px;
-}
-
-#code-editor {
-  height: 480px;
-  width: 800px;
-  font-size: 12px;
-}
-
-
-#sig-editor {
-  height: 480px;
-  width: 100%;
-  font-size: 16px;
-}
-
-#sig-inputs .mdc-layout-grid__inner {
-  background: #ccc;
-  border: 1px solid #888;
-  border-radius: 4px;
-  padding: 4px;
-  grid-gap: 4px;
-}
-
-.sig-input-label {
-  font-weight: bold;
-  color: #0805a8;
-  font-size: 80%;
-  overflow-x: hidden;
-}
-
-#sig-inputs-in .mdc-layout-grid__inner {
-  background: #ccc;
-  border: 1px solid #888;
-  border-radius: 4px;
-  padding: 4px;
-  grid-gap: 4px;
-}
-
-#sig-inputs-out .mdc-layout-grid__inner {
-  background: #ccc;
-  border: 1px solid #888;
-  border-radius: 4px;
-  padding: 4px;
-  grid-gap: 4px;
+#canvas {
+  border: 3px solid #a00;
+  border-radius: 5px;
+  width: 480px;
+  height: 360px;
 }
