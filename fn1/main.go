@@ -3,16 +3,22 @@ package webcam
 import (
 	"bytes"
 	"fmt"
+	"image/color"
+	"image/jpeg"
 	_ "image/jpeg"
+	"math"
 	"signature"
 
 	pigo "github.com/esimov/pigo/core"
+	"github.com/fogleman/gg"
 
 	_ "embed"
 )
 
 //go:embed facefinder
 var cascade_facefinder []byte
+
+var dc *gg.Context
 
 func Scale(ctx *signature.Context) (*signature.Context, error) {
 	ctx.Status = "Hello"
@@ -27,11 +33,15 @@ func Scale(ctx *signature.Context) (*signature.Context, error) {
 	pixels := pigo.RgbToGrayscale(src)
 	cols, rows := src.Bounds().Max.X, src.Bounds().Max.Y
 
+	// Put the image in the gg context so we can manipulate it...
+	dc = gg.NewContext(cols, rows)
+	dc.DrawImage(src, 0, 0)
+
 	cParams := pigo.CascadeParams{
 		MinSize:     20,
 		MaxSize:     1000,
-		ShiftFactor: 0.1,
-		ScaleFactor: 1.1,
+		ShiftFactor: 0.15,
+		ScaleFactor: 1.15,
 
 		ImageParams: pigo.ImageParams{
 			Pixels: pixels,
@@ -57,9 +67,39 @@ func Scale(ctx *signature.Context) (*signature.Context, error) {
 	dets := classifier.RunCascade(cParams, angle)
 
 	// Calculate the intersection over union (IoU) of two clusters.
-	dets = classifier.ClusterDetections(dets, 0.2)
+	dets = classifier.ClusterDetections(dets, 0.15)
 
-	ctx.Status = fmt.Sprintf("Detected %d", len(dets))
+	o := "Detection finished"
+
+	qThresh := float32(5.0)
+
+	for _, d := range dets {
+		if d.Q > qThresh {
+			o = fmt.Sprintf("%s [%d,%d,%d, %.2f]", o, d.Col, d.Row, d.Scale, d.Q)
+
+			dc.DrawArc(
+				float64(d.Col),
+				float64(d.Row),
+				float64(d.Scale/2),
+				0,
+				2*math.Pi,
+			)
+
+			dc.SetLineWidth(2.0)
+			dc.SetStrokeStyle(gg.NewSolidPattern(color.RGBA{R: 255, G: 0, B: 0, A: 255}))
+			dc.Stroke()
+
+		}
+	}
+
+	ctx.Status = o
+
+	// Encode the image with faces detected...
+	img := dc.Image()
+	buff := new(bytes.Buffer)
+	err = jpeg.Encode(buff, img, &jpeg.Options{Quality: 100})
+
+	ctx.Frame = buff.Bytes()
 
 	return signature.Next(ctx)
 }
