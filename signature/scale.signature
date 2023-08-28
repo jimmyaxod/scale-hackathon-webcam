@@ -2,7 +2,12 @@
 version = "v1alpha"
 context = "context"
 model Context {
-  string MyString {
-    default = "DefaultValue"
+  bytes Frame {
+    initial_size = 0
   }
+
+  string Status {
+    default = ""
+  }
+
 }

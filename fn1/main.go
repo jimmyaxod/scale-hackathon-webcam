@@ -1,24 +1,27 @@
 package webcam
 
 import (
-	"io/ioutil"
-	"log"
+	"bytes"
+	"fmt"
+	_ "image/jpeg"
 	"signature"
 
 	pigo "github.com/esimov/pigo/core"
+
+	_ "embed"
 )
 
+//go:embed facefinder
+var cascade_facefinder []byte
+
 func Scale(ctx *signature.Context) (*signature.Context, error) {
-	ctx.MyString = "Hello"
+	ctx.Status = "Hello"
 
-	cascadeFile, err := ioutil.ReadFile("/path/to/cascade/file")
+	data := bytes.NewReader([]byte(ctx.Frame))
+	src, err := pigo.DecodeImage(data)
 	if err != nil {
-		log.Fatalf("Error reading the cascade file: %v", err)
-	}
-
-	src, err := pigo.GetImage("/path/to/image")
-	if err != nil {
-		log.Fatalf("Cannot open the image file: %v", err)
+		ctx.Status = fmt.Sprintf("Cannot open the image file: %v", err)
+		return ctx, err
 	}
 
 	pixels := pigo.RgbToGrayscale(src)
@@ -41,9 +44,10 @@ func Scale(ctx *signature.Context) (*signature.Context, error) {
 	pigo := pigo.NewPigo()
 	// Unpack the binary file. This will return the number of cascade trees,
 	// the tree depth, the threshold and the prediction from tree's leaf nodes.
-	classifier, err := pigo.Unpack(cascadeFile)
+	classifier, err := pigo.Unpack(cascade_facefinder)
 	if err != nil {
-		log.Fatalf("Error reading the cascade file: %s", err)
+		ctx.Status = fmt.Sprintf("Error reading the cascade file: %s", err)
+		return ctx, err
 	}
 
 	angle := 0.0 // cascade rotation angle. 0.0 is 0 radians and 1.0 is 2*pi radians
@@ -54,6 +58,8 @@ func Scale(ctx *signature.Context) (*signature.Context, error) {
 
 	// Calculate the intersection over union (IoU) of two clusters.
 	dets = classifier.ClusterDetections(dets, 0.2)
+
+	ctx.Status = fmt.Sprintf("Detected %d", len(dets))
 
 	return signature.Next(ctx)
 }

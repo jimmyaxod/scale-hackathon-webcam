@@ -6,7 +6,7 @@ language = "go"
 signature {
   organization = "local"
   name         = "webcam"
-  tag          = "v1"
+  tag          = "v2"
 }
 
 function    = "Scale"

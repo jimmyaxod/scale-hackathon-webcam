@@ -2,7 +2,7 @@ module webcam
 
 go 1.20
 
-replace signature => /home/jimmy/.config/scale/signatures/local_webcam_v1_e6ddebc792ee929e2654b4281baca1376e05bf5a96d4bdf63a05a2aab5f9e749_signature/golang/guest
+replace signature => /home/jimmy/.config/scale/signatures/local_webcam_v2_a7e5d1dff75181765e5cf0372f43db33fbe46e94d6f2d560fa544f381f540cef_signature/golang/guest
 
 require signature v0.1.0
 
