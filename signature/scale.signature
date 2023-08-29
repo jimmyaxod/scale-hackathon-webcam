@@ -10,4 +10,20 @@ model Context {
     default = ""
   }
 
+  model_array detections {
+    reference = "detection"
+    initial_size = 0
+  }
+}
+
+model detection {
+  uint32 row {
+    default = 0
+  }
+  uint32 col {
+    default = 0
+  }
+  uint32 scale {
+    default = 0
+  }
 }

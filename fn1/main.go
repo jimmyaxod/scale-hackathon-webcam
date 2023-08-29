@@ -73,6 +73,8 @@ func Scale(ctx *signature.Context) (*signature.Context, error) {
 
 	qThresh := float32(5.0)
 
+	detections := make([]signature.Detection, 0)
+
 	for _, d := range dets {
 		if d.Q > qThresh {
 			o = fmt.Sprintf("%s [%d,%d,%d, %.2f]", o, d.Col, d.Row, d.Scale, d.Q)
@@ -89,9 +91,15 @@ func Scale(ctx *signature.Context) (*signature.Context, error) {
 			dc.SetStrokeStyle(gg.NewSolidPattern(color.RGBA{R: 255, G: 0, B: 0, A: 255}))
 			dc.Stroke()
 
+			detections = append(detections, signature.Detection{
+				Row:   uint32(d.Row),
+				Col:   uint32(d.Col),
+				Scale: uint32(d.Scale),
+			})
 		}
 	}
 
+	ctx.Detections = detections
 	ctx.Status = o
 
 	// Encode the image with faces detected...
