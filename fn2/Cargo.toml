@@ -1,0 +1,20 @@
+
+[package]
+name = "webcam2"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "lib.rs"
+
+[dependencies]
+
+signature = { package = "local_webcam_v4_guest", path = "/home/jimmy/.config/scale/signatures/local_webcam_v4_5d5ebb5f80179598742b15bf4edc2bfd52a8fa14c5bad2a88cc1c215543e6716_signature/rust/guest" }
+
+
+
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

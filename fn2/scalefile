@@ -1,0 +1,14 @@
+version  = "v1alpha"
+name     = "webcam2"
+tag      = "latest"
+language = "rust"
+
+signature {
+  organization = "local"
+  name         = "webcam"
+  tag          = "v4"
+}
+
+function    = "scale"
+initialize  = ""
+description = ""
