@@ -50,4 +50,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	for _, d := range s.Context.Detections {
+		fmt.Printf("Detection at (%d,%d) scale %d\n", d.Col, d.Row, d.Scale)
+	}
 }
